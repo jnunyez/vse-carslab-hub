@@ -94,7 +94,7 @@ spec:
           vendor: "8086"
         numVfs: 7
         priority: 99
-        resourceName: "intel-sriov-vfio-ens5f0"
+        resourceName: "pci_sriov_net_ens5f0_0"
     - fileName: SriovNetworkNodePolicy.yaml
       policyName: "sriov-netd-policy-ens5f0"
       metadata:
@@ -109,7 +109,37 @@ spec:
           vendor: "8086"
         numVfs: 7
         priority: 99
-        resourceName: "intel-sriov-vfio-ens5f0"
+        resourceName: "pci_sriov_net_ens5f0_1"
+    - fileName: SriovNetworkNodePolicy.yaml
+      policyName: "sriov-vfio-policy-ens5f1"
+      metadata:
+        name: intel-sriov-vfio-ens2f0
+      spec:
+        deviceType: vfio-pci
+        mtu: 9216
+        isRdma: false
+        nicselector:
+          pfNames:
+          - ens5f1#0-3
+          vendor: "8086"
+        numVfs: 8
+        priority: 99
+        resourceName: pci_sriov_net_ens5f1_0
+    - fileName: SriovNetworkNodePolicy.yaml
+      policyName: "sriov-netd-policy-ens5f1"
+      metadata:
+        name: intel-sriov-netd-ens5f1
+      spec:
+        deviceType: vfio-pci
+        mtu: 9216
+        isRdma: false
+        nicselector:
+          pfNames:
+          - ens5f1#4-7
+          vendor: "8086"
+        numVfs: 8
+        priority: 99
+        resourceName: pci_sriov_net_ens5f1_1
     - fileName: SriovNetworkNodePolicy.yaml
       policyName: "sriov-vfio-policy-ens2f0"
       metadata:
@@ -124,7 +154,7 @@ spec:
           vendor: "8086"
         numVfs: 8
         priority: 99
-        resourceName: intel-sriov-netd-ens2f0 
+        resourceName: pci_sriov_net_ens2f0_0 
     - fileName: SriovNetworkNodePolicy.yaml
       policyName: "sriov-netd-policy-ens2f0"
       metadata:
@@ -139,7 +169,73 @@ spec:
           vendor: "8086"
         numVfs: 8
         priority: 99
-        resourceName: intel-sriov-netd-ens2f0
+        resourceName: pci_sriov_net_ens2f0_1
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-network-policy-mh-f1c"
+      metadata:
+        name: "sriov-nw-f1c"
+      spec:
+        resourceName: pci_sriov_net_ens5f1_1
+        networkNamespace: bevo-sriov-networks
+        vlan: 300
+        ipam: |-
+          {"type": "static"}
+        linkState: auto
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-network-policy-mh-f1u"
+      metadata:
+        name: "sriov-nw-f1u"
+      spec:
+        resourceName: pci_sriov_net_ens5f1_0
+        networkNamespace: bevo-sriov-networks
+        vlan: 301
+        ipam: |-
+          {"type": "static"}
+        linkState: auto
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-network-policy-bh"
+      metadata:
+        name: "sriov-nw-bh"
+      spec:
+        resourceName: pci_sriov_net_ens2f0_1
+        networkNamespace: bevo-sriov-networks
+        vlan: 302
+        ipam: |-
+          {"type": "static"}
+        linkState: auto
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-network-policy-vran-mgmt"
+      metadata:
+        name: "sriov-vran-fh"
+      spec:
+        resourceName: pci_sriov_net_ens5f0_1
+        networkNamespace: bevo-sriov-networks
+        vlan: 303
+        ipam: |-
+          {"type": "static"}
+        linkState: auto
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-network-policy-vran-fh"
+      metadata:
+        name: "sriov-nw-fh-u"
+      spec:
+        resourceName: pci_sriov_net_ens5f0_0
+        networkNamespace: bevo-sriov-networks
+        vlan: 304
+        ipam: |-
+          {"type": "static"}
+        linkState: auto
+    - fileName: SriovNetwork.yaml
+      policyName: "sriov-network-policy-vran-fh-c"
+      metadata:
+        name: "sriov-nw-fh-c"
+      spec:
+        resourceName: pci_sriov_net_ens5f0_1
+        networkNamespace: bevo-sriov-networks
+        vlan: 305
+        ipam: |-
+          {"type": "static"}
+        linkState: auto
 #    - fileName: StorageLV.yaml
 #      policyName: "config-policy"
 #      spec:
@@ -163,6 +259,8 @@ spec:
         #   - /dev/disk/by-partlabel/httpevent1
         #   - /dev/disk/by-partlabel/httpevent2
     - fileName: DisableSnoNetworkDiag.yaml
+      policyName: "config-policy"
+    - fileName: MachineConfigSctp.yaml
       policyName: "config-policy"
     - fileName: PerformanceProfile.yaml
       policyName: "config-policy"
